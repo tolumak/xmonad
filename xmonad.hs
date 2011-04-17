@@ -17,10 +17,11 @@ import System.Process
 myManageHook = composeAll
     [ className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
-    , className =? "Firefox-bin" --> doShift "2"
+    , className =? "Firefox" --> doShift "2"
     , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
-    , className =? "kmail" --> doShift "3"
-    , (className =? "Pidgin" <&&> name =? "mouches") --> doShift "1"
+    , className =? "Kmail" --> doShift "3"
+    , className =? "Digikam" --> doShift "4"
+    , (className =? "Pidgin" <&&> title =? "mouches") --> doShift "1"
     , className =? "emacs" --> doShift "1"
     ]
 
