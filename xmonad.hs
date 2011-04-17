@@ -5,6 +5,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Actions.CopyWindow
+import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Tabbed
 import XMonad.Layout.BorderResize
 import XMonad.Layout.SimpleFloat
@@ -47,7 +48,7 @@ myKeys conf@ (XConfig {XMonad.modMask = modm}) =
 --myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| borderResize ( simpleFloat )
 
 -- Just a limited set of layout
-myLayout = tiled ||| simpleTabbed ||| Mirror tiled
+layoutW1 = tiled ||| simpleTabbed ||| Mirror tiled
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -61,6 +62,20 @@ myLayout = tiled ||| simpleTabbed ||| Mirror tiled
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
 
+layoutFS = simpleTabbed ||| tiled ||| Mirror tiled
+  where
+     tiled   = Tall nmaster delta ratio
+     nmaster = 1
+     ratio   = 1/2
+     delta   = 3/100
+
+layoutOthers = tiled ||| Mirror tiled ||| simpleTabbed
+  where
+     tiled   = Tall nmaster delta ratio
+     nmaster = 1
+     ratio   = 1/2
+     delta   = 3/100
+
 main = do
      spawn "bash ~/.xmonad/autostart.sh"
      xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmonad/xmobarrc"
@@ -71,7 +86,10 @@ main = do
          , focusedBorderColor = "#FF0000"
          , manageHook = manageDocks <+> myManageHook
                          <+> manageHook defaultConfig
-         , layoutHook = avoidStruts  $  myLayout
+         , layoutHook = avoidStruts  
+                        $ onWorkspace "1" layoutW1
+                        $ onWorkspaces ["2", "3", "4"] layoutFS
+                        $ layoutOthers
          , logHook = dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
