@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Background
+sh ~/.fehbg &
+
 # Cursor
 xsetroot -cursor_name left_ptr
 
