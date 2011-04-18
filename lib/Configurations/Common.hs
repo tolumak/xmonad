@@ -1,33 +1,32 @@
+module Configurations.Common
+where
+
+import System.IO
+import System.Process
 import XMonad
 import XMonad.Config.Azerty
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Hooks.DynamicLog
 import XMonad.Actions.CopyWindow
-import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Tabbed
 import XMonad.Layout.BorderResize
 import XMonad.Layout.SimpleFloat
+import XMonad.Hooks.ManageDocks
+import Network.BSD
 import qualified XMonad.StackSet as W
-import qualified Data.Map as M
-import System.IO
-import System.Process
 
-myManageHook = composeAll
+commonManageHook = composeAll
     [ className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
     , className =? "Firefox" --> doShift "2"
     , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
     , className =? "Kmail" --> doShift "3"
-    , className =? "Digikam" --> doShift "4"
     , (className =? "Pidgin" <&&> title =? "mouches") --> doShift "1"
     , className =? "emacs" --> doShift "1"
     ]
 
-newKeys x = M.union (M.fromList (myKeys x)) (keys azertyConfig x)
-
-myKeys conf@ (XConfig {XMonad.modMask = modm}) =
+commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
              [
               -- mod-[1..9] @@ Switch to workspace N
               -- mod-shift-[1..9] @@ Move client to workspace N
@@ -49,7 +48,7 @@ myKeys conf@ (XConfig {XMonad.modMask = modm}) =
 --myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| borderResize ( simpleFloat )
 
 -- Just a limited set of layout
-layoutW1 = tiled ||| simpleTabbed ||| Mirror tiled
+layoutTiledBigMaster = tiled ||| simpleTabbed ||| Mirror tiled
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -63,39 +62,46 @@ layoutW1 = tiled ||| simpleTabbed ||| Mirror tiled
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
 
-layoutFS = simpleTabbed ||| tiled ||| Mirror tiled
+layoutTabbed = simpleTabbed ||| tiled ||| Mirror tiled
   where
      tiled   = Tall nmaster delta ratio
      nmaster = 1
      ratio   = 1/2
      delta   = 3/100
 
-layoutOthers = tiled ||| Mirror tiled ||| simpleTabbed
+layoutTiled = tiled ||| Mirror tiled ||| simpleTabbed
   where
      tiled   = Tall nmaster delta ratio
      nmaster = 1
      ratio   = 1/2
      delta   = 3/100
 
-main = do
-     spawn "bash ~/.xmonad/autostart.sh"
-     xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmonad/xmobarrc"
-     xmonad $ azertyConfig
+
+makeConfig newManageHook newLayoutHook newKeys = azertyConfig
          { modMask = mod4Mask  -- Rebing Mod to the Windows key
          , terminal = "urxvt -fn 'xft:DejaVu Sans Mono:size=9:antialias=off' -rv"
-	 , borderWidth        = 3	     
+         , borderWidth        = 3
          , focusedBorderColor = "#FF0000"
-         , manageHook = manageDocks <+> myManageHook
+         , manageHook = manageDocks <+> commonManageHook <+> newManageHook
                          <+> manageHook defaultConfig
-         , layoutHook = avoidStruts  
-                        $ onWorkspace "1" layoutW1
-                        $ onWorkspaces ["2", "3", "4"] layoutFS
-                        $ layoutOthers
-         , logHook = dynamicLogWithPP $ xmobarPP
+         , layoutHook = avoidStruts
+                        $ newLayoutHook
+         , keys = newKeys
+         }
+
+xmobarSpawn :: String -> String
+xmobarSpawn xmobarrc = "/usr/bin/xmobar " ++ xmobarrc
+
+defaultXMobarrc host = "~/.xmonad/xmobarrc-" ++ host
+defaultAutostart host = "/bin/sh ~/.xmonad/autostart-" ++ host ++ ".sh"
+
+xmonadStart config = do
+            host <- getHostName
+            spawn (defaultAutostart host)
+            xmproc <- spawnPipe (xmobarSpawn (defaultXMobarrc host))
+            xmonad $ config {
+                   logHook =dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
                         }
-
-         , keys = newKeys
-
-         }
+            }

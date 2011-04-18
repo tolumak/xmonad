@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Background
-sh ~/.fehbg &
-
 # Cursor
 xsetroot -cursor_name left_ptr
 
@@ -10,7 +7,10 @@ xsetroot -cursor_name left_ptr
 /usr/bin/trayer --edge top --align right --widthtype percent --width 10 --height 17 --tint 0 --transparent true --alpha 1 --SetDockType true &
 
 # Launch applications
-pidgin &
+eval `ssh-agent`
+mount-tray &
 firefox &
-kmail &
 emacs &
+~/bin/mail_tunnel.sh
+pidgin &
+kmail &
