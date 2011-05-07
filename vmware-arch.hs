@@ -6,7 +6,7 @@ import Configurations.Common
 import qualified Data.Map as M
 
 newManageHook = composeAll [
-    className =? "vmplayer" --> doShift "6"
+    className =? "Vmplayer" --> doShift "6"
     ]
 
 newLayoutHook = onWorkspace "1" layoutTiledBigMaster
