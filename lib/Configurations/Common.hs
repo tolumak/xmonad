@@ -23,6 +23,7 @@ commonManageHook = composeAll
     , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
     , className =? "Kmail" --> doShift "3"
     , className =? "Lanikai" --> doShift "3"
+    , className =? "Thunderbird" --> doShift "3"
     , (className =? "Pidgin" <&&> title =? "mouches") --> doShift "1"
     , className =? "emacs" --> doShift "1"
     ]
