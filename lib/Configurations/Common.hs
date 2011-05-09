@@ -80,7 +80,7 @@ layoutTiled = tiled ||| Mirror tiled ||| simpleTabbed
 
 makeConfig newManageHook newLayoutHook newKeys = azertyConfig
          { modMask = mod4Mask  -- Rebing Mod to the Windows key
-         , terminal = "urxvt -fn 'xft:DejaVu Sans Mono:size=9:antialias=off' -rv"
+         , terminal = "urxvt -tr -sh 25 -fn 'xft:DejaVu Sans Mono:size=9:antialias=on' -rv"
          , borderWidth        = 3
          , focusedBorderColor = "#FF0000"
          , manageHook = manageDocks <+> commonManageHook <+> newManageHook
