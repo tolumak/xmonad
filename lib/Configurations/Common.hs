@@ -24,8 +24,9 @@ commonManageHook = composeAll
     , className =? "Kmail" --> doShift "3"
     , className =? "Lanikai" --> doShift "3"
     , className =? "Thunderbird" --> doShift "3"
+    , appName =? "Mail" --> doShift "3"
     , (className =? "Pidgin" <&&> title =? "mouches") --> doShift "1"
-    , className =? "emacs" --> doShift "1"
+    , appName =? "emacs" --> doShift "1"
     ]
 
 commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
