@@ -6,7 +6,8 @@ import Configurations.Common
 import qualified Data.Map as M
 
 newManageHook = composeAll [
-    className =? "Evolution" --> doShift "3"
+    className =? "Evolution" --> doShift "3",
+    resource =? "stalonetray" --> doIgnore
     ]
 
 newLayoutHook = onWorkspace "1" layoutTiledBigMaster
