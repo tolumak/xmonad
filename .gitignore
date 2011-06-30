@@ -1,0 +1,6 @@
+*.o
+*.hi
+xmonad.hs
+xmonad.errors
+xmonad-*
+xmonad
