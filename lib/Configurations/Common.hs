@@ -36,7 +36,7 @@ commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
               -- mod-control-shift-[1..9] @@ Copy client to workspace N
                ((m .|. modm, k), windows $ f i)
                  | (i, k) <- zip (XMonad.workspaces conf) [0x26,0xe9,0x22,0x27,0x28,0x2d,0xe8,0x5f,0xe7,0xe0]
-                 , (f, m) <- [(W.view, 0), (W.shift, shiftMask), (copy, shiftMask .|. controlMask)]
+                 , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask), (copy, shiftMask .|. controlMask)]
              ]
              ++
              [
