@@ -46,6 +46,7 @@ commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
              , ((modm .|. shiftMask, xK_j     ), windows W.swapUp    ) -- %! Swap the focused window with the previous window
              , ((modm .|. shiftMask, xK_k     ), windows W.swapDown  ) -- %! Swap the focused window with the next window
 	     , ((modm .|. shiftMask, xK_l    ), spawn "slock") -- %! Lock the screen
+             , ((modm,               xK_p    ), spawn "dmenu_run") -- %! Menu
              ]
 -- All (too many) layout
 --myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| borderResize ( simpleFloat )
