@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# ICC
+dispwin -I ~/ICC/T190-warm-br33.icc
+
 # Background
 sh ~/.fehbg &
 
