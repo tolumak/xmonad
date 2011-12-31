@@ -14,7 +14,7 @@ xsetroot -cursor_name left_ptr
 
 # Launch applications
 eval `ssh-agent`
-mount-tray &
+hillman &
 pidgin &
 firefox &
 thunderbird &
