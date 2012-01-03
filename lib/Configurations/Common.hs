@@ -13,6 +13,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.BorderResize
 import XMonad.Layout.SimpleFloat
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import Network.BSD
 import qualified XMonad.StackSet as W
 
@@ -87,6 +88,8 @@ makeConfig newManageHook newLayoutHook newKeys = azertyConfig
          , terminal = "urxvt -si -sw -sk -sl 65535 -tr -sh 25 -fn 'xft:DejaVu Sans Mono:size=9:antialias=on' -rv"
          , borderWidth        = 3
          , focusedBorderColor = "#FF0000"
+         , startupHook = ewmhDesktopsStartup
+         , handleEventHook = ewmhDesktopsEventHook
          , manageHook = manageDocks <+> commonManageHook <+> newManageHook
                          <+> manageHook defaultConfig
          , layoutHook = avoidStruts
@@ -105,8 +108,8 @@ xmonadStart config = do
             spawn (defaultAutostart host)
             xmproc <- spawnPipe (xmobarSpawn (defaultXMobarrc host))
             xmonad $ config {
-                   logHook =dynamicLogWithPP $ xmobarPP
+                   logHook = ewmhDesktopsLogHook <+> (dynamicLogWithPP $ xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
-                        }
+                        })
             }

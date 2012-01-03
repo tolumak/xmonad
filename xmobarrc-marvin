@@ -1,7 +1,7 @@
 Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = TopW L 90
+       , position = Static { xpos = 0, ypos = 0, width = 1248, height = 16 }
        , commands = [ Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Com "date" ["+'%a %d %b %k:%M'"] "date" 100
                     , Run StdinReader
