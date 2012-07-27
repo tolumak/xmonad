@@ -12,6 +12,7 @@ import XMonad.Actions.CopyWindow
 import XMonad.Layout.Tabbed
 import XMonad.Layout.BorderResize
 import XMonad.Layout.SimpleFloat
+import XMonad.Layout.NoBorders
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import Network.BSD
@@ -54,7 +55,7 @@ commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
 --myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| borderResize ( simpleFloat )
 
 -- Just a limited set of layout
-layoutTiledBigMaster = tiled ||| simpleTabbed ||| Mirror tiled
+layoutTiledBigMaster = tiled ||| noBorders simpleTabbed ||| Mirror tiled
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -68,14 +69,14 @@ layoutTiledBigMaster = tiled ||| simpleTabbed ||| Mirror tiled
      -- Percent of screen to increment by when resizing panes
      delta   = 3/100
 
-layoutTabbed = simpleTabbed ||| tiled ||| Mirror tiled
+layoutTabbed = noBorders simpleTabbed ||| tiled ||| Mirror tiled
   where
      tiled   = Tall nmaster delta ratio
      nmaster = 1
      ratio   = 1/2
      delta   = 3/100
 
-layoutTiled = tiled ||| Mirror tiled ||| simpleTabbed
+layoutTiled = tiled ||| Mirror tiled ||| noBorders simpleTabbed
   where
      tiled   = Tall nmaster delta ratio
      nmaster = 1
