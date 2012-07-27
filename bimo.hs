@@ -6,6 +6,10 @@ import XMonad.Layout.Tabbed
 import Configurations.Common
 import qualified Data.Map as M
 
+newManageHook = composeAll [
+    resource =? "stalonetray" --> doIgnore
+    ]
+
 layoutTiledBimo = tiled ||| simpleTabbed ||| Mirror tiled
   where
      tiled   = Tall nmaster delta ratio
@@ -13,12 +17,9 @@ layoutTiledBimo = tiled ||| simpleTabbed ||| Mirror tiled
      ratio   = 3/5 
      delta   = 3/100
 
-
 newLayoutHook = onWorkspace "1" layoutTiledBimo
                 $ onWorkspaces ["2", "3"] layoutTabbed
                 $ layoutTiled
-
-newManageHook = composeAll [ ]
 
 newKeys x = M.union (M.fromList (commonKeys x)) (keys azertyConfig x)
 
