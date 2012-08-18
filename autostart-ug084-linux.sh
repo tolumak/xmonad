@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Dual screen
-xrandr --output LVDS-1 --auto --primary --output VGA-1 --auto --right-of  LVDS-1
+xrandr --output LVDS-1 --auto --primary --gamma 1.6:1.6:1.9 --output VGA-1 --mode 1280x1024 --rate 75  --right-of  LVDS-1 --gamma 0.8:0.8:0.8
 
 # Background
 sh ~/.fehbg &
@@ -15,8 +15,9 @@ xsetroot -cursor_name left_ptr
 # Launch applications
 xbindkeys &
 nm-applet &
-mount-tray &
+hillman &
 pidgin &
 firefox &
 emacs &
-evolution &
+davmail &
+thunderbird &

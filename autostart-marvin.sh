@@ -18,4 +18,4 @@ hillman &
 pidgin &
 firefox &
 thunderbird &
-emacs &
+
