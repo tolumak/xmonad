@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Dual screen
-xrandr --output LVDS-1 --auto --primary --gamma 1.6:1.6:1.9 --output VGA-1 --mode 1280x1024 --rate 75  --right-of  LVDS-1 --gamma 0.8:0.8:0.8
+xrandr --output LVDS-1 --auto --primary --gamma 1.0:1.0:1.0 --output VGA-1 --mode 1280x1024 --rate 75  --right-of  LVDS-1 --gamma 0.8:0.8:0.8
 
 # Background
 sh ~/.fehbg &
