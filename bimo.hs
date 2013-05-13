@@ -24,4 +24,4 @@ newLayoutHook = onWorkspace "1" layoutTiledBimo
 newKeys x = M.union (M.fromList (commonKeys x)) (keys azertyConfig x)
 
 
-main = xmonadStart (makeConfig newManageHook newLayoutHook newKeys)
+main = xmonadStart (makeConfig newManageHook newLayoutHook newKeys mod4mask)

@@ -84,8 +84,8 @@ layoutTiled = tiled ||| Mirror tiled ||| noBorders simpleTabbed
      delta   = 3/100
 
 
-makeConfig newManageHook newLayoutHook newKeys = azertyConfig
-         { modMask = mod4Mask  -- Rebing Mod to the Windows key
+makeConfig newManageHook newLayoutHook newKeys newModMask = azertyConfig
+         { modMask = newModMask  -- Rebing Mod to the Windows key
          , terminal = "urxvt -si -sw -sk -sl 65535 -tr -sh 25 -fn 'xft:DejaVu Sans Mono:size=9:antialias=on' -rv"
          , borderWidth        = 3
          , focusedBorderColor = "#FF0000"
