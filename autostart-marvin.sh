@@ -14,7 +14,7 @@ xsetroot -cursor_name left_ptr
 
 # Launch applications
 eval `ssh-agent`
-hillman &
+udiskie &
 pidgin &
 firefox &
 thunderbird &
