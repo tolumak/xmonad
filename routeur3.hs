@@ -19,4 +19,4 @@ newLayoutHook = onWorkspace "1" layoutTiledBigMaster
 newKeys x = M.union (M.fromList (commonKeys x)) (keys azertyConfig x)
 
 
-main = xmonadStart (makeConfig newManageHook newLayoutHook newKeys mod5Mask)
+main = xmonadStart (makeConfig newManageHook newLayoutHook newKeys mod1Mask)
