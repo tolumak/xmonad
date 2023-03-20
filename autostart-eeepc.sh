@@ -17,6 +17,6 @@ eval `ssh-agent`
 xbindkeys &
 udiskie &
 pidgin &
-firefox &
-thunderbird &
+#firefox &
+#thunderbird &
 
