@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ICC
-#dispwin -I ~/ICC/display.icc
+#~/bin/setdisplayprofile.sh
 
 # Background
 sh ~/.fehbg &
@@ -10,13 +10,21 @@ sh ~/.fehbg &
 xsetroot -cursor_name left_ptr
 
 # Trayer
-/usr/bin/stalonetray -bg \#000000 --icon-gravity SE -i 15 -s 16 --geometry 12x1+2368+0 --max-geometry 12x1 &
+/usr/bin/stalonetray --icon-gravity SE -i 15 -s 16 --geometry 12x1+2368+0 --max-geometry 12x1 &
 
 # Launch applications
-eval `ssh-agent`
 xbindkeys &
-udiskie &
+colormgr device-add-profile "xrandr-Ancor Communications Inc-PA279-E2LMQS045051" icc-89d4a3db313d812de31120b3ce82f745;
+colormgr device-add-profile "xrandr-Ancor Communications Inc-PA279-E2LMQS045051" icc-8b836f6e78b780bdf381314f700c5d55;
+colormgr device-add-profile "xrandr-Ancor Communications Inc-PA279-E2LMQS045051" icc-01ec39667a0a7d5eccc161bef857441c;
+
+killall -9 xiccd
+xiccd &
+light-locker &
+udiskie -t &
+blueberry-tray &
+pasystray &
 pidgin &
-firefox &
-thunderbird &
+#firefox &
+#thunderbird &
 

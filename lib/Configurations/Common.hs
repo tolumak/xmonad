@@ -5,6 +5,7 @@ where
 
 import System.IO
 import System.Process
+import System.Exit
 import XMonad
 import XMonad.Config.Azerty
 import XMonad.Util.Run(spawnPipe)
@@ -21,10 +22,10 @@ import Network.BSD
 import qualified XMonad.StackSet as W
 
 commonManageHook = composeAll
-    [ className =? "Gimp"      --> doFloat
-    , className =? "Vncviewer" --> doFloat
-    , className =? "Firefox" --> doShift "2"
-    , (className =? "Firefox" <&&> resource =? "Dialog") --> doFloat
+    [ 
+    className =? "Vncviewer" --> doFloat
+    , className =? "firefox" --> doShift "2"
+    , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat
     , className =? "Kmail" --> doShift "3"
     , className =? "Lanikai" --> doShift "3"
     , className =? "Thunderbird" --> doShift "3"
@@ -34,7 +35,9 @@ commonManageHook = composeAll
     , (appName =? "emacs" <&&> resource =? "Dialog") --> doFloat
     ]
 
-commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
+    
+
+commonKeys conf@(XConfig {XMonad.modMask = modm}) =
              [
               -- mod-[1..9] @@ Switch to workspace N
               -- mod-shift-[1..9] @@ Move client to workspace N
@@ -46,12 +49,13 @@ commonKeys conf@ (XConfig {XMonad.modMask = modm}) =
              ++
              [
                ((modm .|. shiftMask, xK_c     ), kill1) -- @@ Close the focused window
-	     , ((modm,               xK_j     ), windows W.focusUp  ) -- %! Move focus to the previous window
+             , ((modm,               xK_j     ), windows W.focusUp  ) -- %! Move focus to the previous window
              , ((modm,               xK_k     ), windows W.focusDown) -- %! Move focus to the next window             
              , ((modm .|. shiftMask, xK_j     ), windows W.swapUp    ) -- %! Swap the focused window with the previous window
              , ((modm .|. shiftMask, xK_k     ), windows W.swapDown  ) -- %! Swap the focused window with the next window
 	     , ((modm .|. shiftMask, xK_l    ), spawn "slock") -- %! Lock the screen
              , ((modm,               xK_p    ), spawn "dmenu_run") -- %! Menu
+             , ((modm .|. shiftMask, xK_q    ),  io (defaultAutostop) >> io (exitWith ExitSuccess) ) -- Close xmonad
              ]
 -- All (too many) layout
 --myLayout = tiled ||| Mirror tiled ||| Full ||| simpleTabbed ||| borderResize ( simpleFloat )
@@ -86,7 +90,7 @@ layoutTiled = tiled ||| Mirror tiled ||| noBorders simpleTabbed
      delta   = 3/100
 
 
-makeConfig newManageHook newLayoutHook newKeys newModMask = azertyConfig
+makeConfig newManageHook newLayoutHook newKeys newModMask = ewmh $ azertyConfig
          { modMask = newModMask  -- Rebing Mod to the Windows key
          , terminal = "urxvt -si -sw -sk -sl 65535 -tr -sh 25 -fn 'xft:DejaVu Sans Mono:size=9:antialias=on' -rv"
          , borderWidth        = 3
@@ -105,14 +109,17 @@ xmobarSpawn xmobarrc = "/usr/bin/xmobar " ++ xmobarrc
 
 defaultXMobarrc host = "~/.xmonad/xmobarrc-" ++ host
 defaultAutostart host = "/bin/sh ~/.xmonad/autostart-" ++ host ++ ".sh"
+defaultAutostop = do
+  hostStr <- getHostName
+  let str = "/bin/sh ~/.xmonad/autostop-" ++ hostStr ++ ".sh"
+  spawn str
+
+myPP = xmobarPP { ppCurrent = xmobarColor "green" "" . shorten 50 }
+
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 xmonadStart config = do
             host <- getHostName
             spawn (defaultAutostart host)
-            xmproc <- spawnPipe (xmobarSpawn (defaultXMobarrc host))
-            xmonad $ config {
-                   logHook = ewmhDesktopsLogHook <+> (dynamicLogWithPP $ xmobarPP
-                        { ppOutput = hPutStrLn xmproc
-                        , ppTitle = xmobarColor "green" "" . shorten 50
-                        })
-            }
+            xmonad =<< statusBar (xmobarSpawn (defaultXMobarrc host)) myPP toggleStrutsKey config
+	    
