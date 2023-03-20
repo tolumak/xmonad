@@ -53,7 +53,7 @@ commonKeys conf@(XConfig {XMonad.modMask = modm}) =
              , ((modm,               xK_k     ), windows W.focusDown) -- %! Move focus to the next window             
              , ((modm .|. shiftMask, xK_j     ), windows W.swapUp    ) -- %! Swap the focused window with the previous window
              , ((modm .|. shiftMask, xK_k     ), windows W.swapDown  ) -- %! Swap the focused window with the next window
-	     , ((modm .|. shiftMask, xK_l    ), spawn "slock") -- %! Lock the screen
+             , ((modm .|. shiftMask, xK_l    ), spawn "slock") -- %! Lock the screen
              , ((modm,               xK_p    ), spawn "dmenu_run") -- %! Menu
              , ((modm .|. shiftMask, xK_q    ),  io (defaultAutostop) >> io (exitWith ExitSuccess) ) -- Close xmonad
              ]
@@ -95,10 +95,8 @@ makeConfig newManageHook newLayoutHook newKeys newModMask = ewmh $ azertyConfig
          , terminal = "urxvt -si -sw -sk -sl 65535 -tr -sh 25 -fn 'xft:DejaVu Sans Mono:size=9:antialias=on' -rv"
          , borderWidth        = 3
          , focusedBorderColor = "#FF0000"
-         , startupHook = ewmhDesktopsStartup
-         , handleEventHook = ewmhDesktopsEventHook
          , manageHook = manageDocks <+> commonManageHook <+> newManageHook
-                         <+> manageHook defaultConfig
+                         <+> manageHook def
          , layoutHook = avoidStruts
                         $ newLayoutHook
          , keys = newKeys
@@ -121,5 +119,4 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 xmonadStart config = do
             host <- getHostName
             spawn (defaultAutostart host)
-            xmonad =<< statusBar (xmobarSpawn (defaultXMobarrc host)) myPP toggleStrutsKey config
-	    
+            xmonad =<< statusBar (xmobarSpawn (defaultXMobarrc host)) myPP toggleStrutsKey config    
