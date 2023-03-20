@@ -5,9 +5,17 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , commands = [ Run Cpu ["-L","3","-H","50","--normal","green","--high","red"] 10
                     , Run Com "date" ["+'%a %d %b %k:%M'"] "date" 100
                     , Run StdinReader
+                    , Run BatteryP ["BAT0"]
+                          ["-t", "<acstatus> <left>%",
+                           "-L", "15", "-H", "95", "-p", "3", "-n", "white", "-h", "green", "-l", "red",
+                           "--", "-O", "<fc=green>AC</fc>", "-o", "Bat",
+                           "-L", "-15", "-H", "-5",
+                           "-l", "red", "-m", "blue", "-h", "green"]
+                           20
+
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% | %memory% | <fc=#ee9a00>%date%</fc> "
+       , template = "%StdinReader% }{ %battery% | %cpu% | %memory% | <fc=#ee9a00>%date%</fc> "
        }

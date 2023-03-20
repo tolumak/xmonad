@@ -15,6 +15,6 @@
 xbindkeys &
 nm-applet &
 pasystray &
-firefox &
-thunderbird &
+#firefox &
+#thunderbird &
 
