@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Background
-#sh ~/.fehbg &
+sh ~/.fehbg &
 XDG_MENU_PREFIX=plasma- kbuildsycoca6
 
 # ICC
