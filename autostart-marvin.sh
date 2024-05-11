@@ -3,6 +3,8 @@
 # ICC
 #~/bin/setdisplayprofile.sh
 
+XDG_MENU_PREFIX=plasma- kbuildsycoca6
+
 # Background
 sh ~/.fehbg &
 
@@ -21,10 +23,11 @@ colormgr device-add-profile "xrandr-Ancor Communications Inc-PA279-E2LMQS045051"
 killall -9 xiccd
 xiccd &
 light-locker &
-udiskie -t &
+udiskie -A -N -F -t &
 blueberry-tray &
 pasystray &
 pidgin &
+nextcloud &
 #firefox &
 #thunderbird &
 
