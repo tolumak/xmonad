@@ -26,7 +26,7 @@ light-locker &
 udiskie -A -N -F -t &
 blueberry-tray &
 pasystray &
-pidgin &
+#pidgin &
 nextcloud &
 #firefox &
 #thunderbird &
