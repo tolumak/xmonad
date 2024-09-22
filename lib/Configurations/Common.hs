@@ -21,6 +21,11 @@ import XMonad.Hooks.EwmhDesktops
 import Network.BSD
 import qualified XMonad.StackSet as W
 
+-- use xprop on the window
+-- See documentation of XMonad.ManageHook
+-- appName = first string of WM_CLASS
+-- className = second string of WM_CLASS
+-- resource = same as appName
 commonManageHook = composeAll
     [ 
     className =? "Vncviewer" --> doFloat
@@ -30,6 +35,7 @@ commonManageHook = composeAll
     , className =? "Lanikai" --> doShift "3"
     , className =? "Thunderbird" --> doShift "3"
     , appName =? "Mail" --> doShift "3"
+    , appName =? "Alert" --> doFloat
     , (className =? "Pidgin" <&&> title =? "mouches") --> doShift "1"
     , appName =? "emacs" --> doShift "1"
     , (appName =? "emacs" <&&> resource =? "Dialog") --> doFloat
