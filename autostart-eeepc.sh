@@ -3,6 +3,8 @@
 # ICC
 #dispwin -I ~/ICC/display.icc
 
+XDG_MENU_PREFIX=plasma- kbuildsycoca6
+
 # Background
 sh ~/.fehbg &
 
@@ -13,10 +15,11 @@ xsetroot -cursor_name left_ptr
 /usr/bin/stalonetray -bg \#000000 --icon-gravity SE -i 15 -s 16 --geometry 12x1+1126+0 --max-geometry 12x1 &
 
 # Launch applications
-eval `ssh-agent`
+light-locker &
+xss-lock -- light-locker-command -l &
 xbindkeys &
 udiskie -A -N -t &
-pidgin &
+nextcloud &
 #firefox &
 #thunderbird &
 
