@@ -25,6 +25,7 @@ colormgr device-make-profile-default "xrandr-Ancor Communications Inc-PA279-E2LM
 
 
 light-locker &
+dunst &
 xss-lock -- light-locker-command -l &
 udiskie -A -N -F -t &
 blueberry-tray &

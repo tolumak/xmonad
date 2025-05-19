@@ -18,6 +18,7 @@ xbindkeys &
 nm-applet &
 pasystray &
 nextcloud &
+dunst &
 #firefox &
 #thunderbird &
 
